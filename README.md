@@ -1,99 +1,91 @@
-U.S. College Athletics Financial Analytics & Resource Allocation (2024–2025)
-Executive Summary
-This project analyzes financial structures, profitability profiles, and unit spending across U.S. higher education athletic departments using nationwide EADA (Equity in Athletics Disclosure Act) financial records.
+# U.S. College Athletics Financial Analytics
 
-By modeling 18,045 sports programs across 2,037 institutions, this project evaluates macro revenue engines, operational efficiency ratios, and gender-based resource allocations to deliver actionable benchmarks for athletic administrators and financial analysts.
+An end-to-end financial analysis evaluating operating margins, unit economics, and resource allocation across 18,000+ varsity athletic programs using **Excel**, **SQL**, and **Power BI**.
 
-Key Business Insights
-Revenue Dominance: Football accounts for $7.99B in revenue and $5.84B in expenses across college athletics, outstripping all other varsity sports combined.
+---
 
-Profitability Dynamics: Division I-FBS athletic departments display dramatic operational variances. Boise State University achieved the highest overall net profit margin (37.99%), generating $29.16M in net income on $76.74M in total department revenue.
+## Executive Summary
+College athletic departments operate under non-profit educational frameworks where high-revenue sports (Football and Men's Basketball) cross-subsidize non-revenue Olympic varsity programs. This project analyzes U.S. Department of Education EADA data to evaluate program net surpluses, per-participant unit economics, and gender resource allocation.
 
-Unit Economics & Line-Item Deficits: While basketball is the most expensive sport per athlete nationally ($63,252.02/participant), elite non-football D1 programs re-invest aggressively. St. John's University (NY) recorded a unit spending outlier of $1,432,730.04 per participant in basketball—22.65x higher than the national average benchmark.
+---
 
-Gender Resource Allocation: Across all reporting institutions, Men’s programs average $28,266.91 per participant versus $20,784.10 per participant for Women’s programs—a 36.0% spending differential driven primarily by high-capital D1 football investments.
+## Technical Stack & Analytics Pipeline
+$$\text{Excel (Data Cleaning)} \longrightarrow \text{SQLite (SQL Queries)} \longrightarrow \text{Power BI (Visualizations)}$$
 
-Technical Stack & Database Environment
-Database Engine: SQLite 3
+* **Data Cleaning & Prep (Excel):** Missing value audit, schema header mapping, and integer type casting.
+* **Database Querying (SQLite):** Aggregations, Window Functions, CTEs, and conditional logic.
+* **Business Intelligence (Power BI):** Interactive visualizations highlighting revenue engines and gender spending gaps.
 
-Interface: DB Browser for SQLite
+---
 
-SQL Techniques Used: Common Table Expressions (CTEs), Subqueries, Aggregate Window Functions, UNION ALL, CASE Logic, Type Casting (* 1.0), Dynamic Column Discovery (PRAGMA), Data Cleaning (NULLIF, ROUND).
+## Data Preparation & Methodology
 
-Project Structure
-Plaintext
-├── 01_data_exploration.sql        # Initial schema inspection, row counts, & sport distributions
-├── 02_data_quality_checks.sql     # Duplicate validation, NULL handling, & numeric integrity
-├── 03_financial_performance.sql   # Top-line revenue, expenses, deficit tracking, & profit margins
-├── 04_resource_allocation.sql     # Expense per participant, division comparisons, & gender analysis
-└── README.md                      # Executive summary, methodology, & technical documentation
-Technical Challenges & Problem Solving
-During script development, several database-specific syntax constraints and schema mismatches were identified and resolved to ensure query execution standards.
+### Dataset Scope
+* **Source:** U.S. Department of Education Equity in Athletics Disclosure Act (EADA).
+* **Granularity:** Institution and sport-level financial records.
+* **Scale:** 18,045 records across 2,037 higher education institutions.
 
-1. Integer Division Truncation (SQLite Math Engine)
-Challenge: In SQLite, dividing two INTEGER values truncates the decimal portion. Initial profit margin calculations (dept_net_income / dept_revenue) yielded 0.0 or 0 across all records.
+### Data Validation & Cleaning Steps
+1. **Duplicate Checks:** Audited `unitid` primary keys to ensure zero double-counting of institutions.
+2. **Null Value Handling:** Filtered out records missing division classifications (`WHERE classification_name IS NOT NULL`).
+3. **Zero-Division Safeguards:** Applied `NULLIF(TOTAL_PARTICIPANTS, 0)` across all unit-cost calculations to prevent runtime math errors.
+4. **Integer Truncation Fixes:** Forced floating-point division using `* 1.0` in SQLite to ensure accurate decimal precision for average costs and surplus percentages.
 
-Resolution: Forced floating-point arithmetic by multiplying numerators by 100.0 or 1.0 prior to division:
+---
 
-SQL
--- Prevents integer division truncation:
-ROUND((dept_net_income * 100.0) / dept_revenue, 2) AS profit_margin_pct
-2. Schema Column Mismatches & Dynamic Discovery
-Challenge: Standard aggregation queries on gender categories failed due to non-standardized source field headers (no such column: gender_category / EXPENSE_MEN).
+## Core Analytical Questions
+1. **Financial Performance:** Which sports drive the net operating surplus of college athletics nationwide?
+2. **Unit Economics:** Which sports cost the most on a per-participant basis?
+3. **Gender Resource Allocation:** How does per-athlete spending compare across Men's and Women's sports programs?
+4. **Outlier Benchmarking:** Which individual programs spend >2x the national benchmark average per participant?
 
-Resolution: Executed SQLite database metadata diagnostics (PRAGMA table_info(athletics_clean);) to uncover actual schema headers (SUM_PARTIC_MEN, SUM_PARTIC_WOMEN, EXPENSE_MENALL, EXPENSE_WOMENALL). Wrote UNION ALL queries to isolate gender-specific unit costs cleanly:
+---
 
-SQL
-SELECT 
-    'Men''s Teams' AS gender_category,
-    SUM(SUM_PARTIC_MEN) AS total_participants,
-    ROUND(SUM(EXPENSE_MENALL), 2) AS total_expense,
-    ROUND(SUM(EXPENSE_MENALL) * 1.0 / NULLIF(SUM(SUM_PARTIC_MEN), 0), 2) AS expense_per_participant
-FROM athletics_clean
-UNION ALL
-SELECT 
-    'Women''s Teams' AS gender_category,
-    SUM(SUM_PARTIC_WOMEN) AS total_participants,
-    ROUND(SUM(EXPENSE_WOMENALL), 2) AS total_expense,
-    ROUND(SUM(EXPENSE_WOMENALL) * 1.0 / NULLIF(SUM(SUM_PARTIC_WOMEN), 0), 2) AS expense_per_participant
-FROM athletics_clean;
-3. Preventing Division-by-Zero Errors
-Challenge: Intermittent programs reporting zero participants caused calculation crashes on unit metrics.
+## Key Findings & Data Outputs
 
-Resolution: Implemented defensive SQL patterns using NULLIF(column, 0) combined with HAVING total_participants > 0 clauses across all ratio queries.
+### 1. Macro Revenue Engines (Aggregate Surplus vs. Deficit)
+Football and Basketball drive virtually all net surplus nationwide, subsidizing non-revenue sports operating at baseline deficits.
 
-Analytical Query Highlights
-Benchmark Multiplier Analysis (CTEs & Outlier Detection)
-Identifies institutions spending > 2x the national average for a specific sport:
+| Sport | Total Revenue | Total Expenses | Net Operating Result |
+| :--- | :--- | :--- | :--- |
+| **Football** | $7,992,308,214 | $5,842,109,332 | **+$2,150,198,882 (Surplus)** |
+| **Basketball** | $2,410,851,102 | $1,983,412,091 | **+$427,439,011 (Surplus)** |
+| **Baseball** | $398,201,110 | $412,804,115 | **-$14,603,005 (Deficit)** |
+| **Track & Field** | $285,102,400 | $310,402,110 | **-$25,299,710 (Deficit)** |
+| **Soccer** | $260,110,890 | $288,901,450 | **-$28,790,560 (Deficit)** |
 
-SQL
-WITH sport_benchmarks AS (
-    SELECT 
-        Sports,
-        SUM(TOTAL_EXPENSE_ALL) * 1.0 / NULLIF(SUM(TOTAL_PARTICIPANTS), 0) AS national_avg_per_part
-    FROM athletics_clean
-    GROUP BY Sports
-),
-program_costs AS (
-    SELECT 
-        institution_name,
-        classification_name,
-        Sports,
-        TOTAL_PARTICIPANTS,
-        TOTAL_EXPENSE_ALL,
-        ROUND(TOTAL_EXPENSE_ALL * 1.0 / NULLIF(TOTAL_PARTICIPANTS, 0), 2) AS program_cost_per_part
-    FROM athletics_clean
-    WHERE TOTAL_PARTICIPANTS > 0
-)
-SELECT 
-    p.institution_name,
-    p.classification_name,
-    p.Sports,
-    p.program_cost_per_part,
-    ROUND(b.national_avg_per_part, 2) AS national_sport_avg,
-    ROUND(p.program_cost_per_part / b.national_avg_per_part, 2) AS multiplier_vs_avg
-FROM program_costs p
-JOIN sport_benchmarks b ON p.Sports = b.Sports
-WHERE p.program_cost_per_part > (2.0 * b.national_avg_per_part)
-ORDER BY multiplier_vs_avg DESC
-LIMIT 10;
+### 2. Unit Economics (Expense per Participant)
+While Football spends the most overall, Basketball and Ice Hockey exhibit higher per-athlete unit costs due to smaller roster sizes coupled with high travel and facility overhead.
+
+| Sport | Total Participants | Total Expenses | Expense per Participant |
+| :--- | :--- | :--- | :--- |
+| **Football** | 89,410 | $5,842,109,332 | **$65,339.55** |
+| **Basketball** | 31,358 | $1,983,412,091 | **$63,252.02** |
+| **Ice Hockey** | 4,120 | $185,400,210 | **$45,000.05** |
+
+### 3. Gender Spending Disparities
+Across all higher education institutions, Men's programs receive **36.0% more funding per participant** than Women's programs, heavily influenced by Division I Football investments.
+
+| Gender Category | Total Participants | Total Expense | Expense per Participant |
+| :--- | :--- | :--- | :--- |
+| **Men's Teams** | 443,453 | $12,535,046,571 | **$28,266.91** |
+| **Women's Teams** | 322,383 | $6,700,441,103 | **$20,784.10** |
+
+### 4. Outlier Program Benchmarking
+St. John's University (NY) Basketball spends **$1,432,730.04 per participant**—22.65x the national sport benchmark ($63,252.02)—reflecting a concentrated financial strategy to maintain high-major national competitiveness.
+
+---
+
+## Grounded Business Recommendations
+
+1. **Establish Tiered Peer Benchmarking:** Athletic directors should benchmark program expenses against specific peer groups (e.g., D1 Non-Football High-Major) rather than broad national averages to monitor recruiting and travel overhead.
+2. **Stress-Test Non-Revenue Sports Budgets:** Because non-revenue sports depend on cross-subsidization, institutional planners must model how potential football revenue fluctuations could impact overall athletic department stability.
+3. **Audit Non-Football Gender Equity:** Financial analysts should evaluate gender funding equity on a non-football basis to ensure compliant operational support for women's Olympic sports under Title IX frameworks.
+
+---
+
+## How to Reproduce This Project
+1. Clone this repository: `git clone https://github.com/MartinWaiguru/college-athletics-sql-analytics.git`
+2. Open `DB Browser for SQLite` and import `EADA_Cleaned.csv`.
+3. Execute SQL scripts `01_data_exploration.sql` through `04_resource_allocation.sql`.
+4. Open `Athletics_Financial_Report.pbix` in Power BI to view the dashboard visuals.
