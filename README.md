@@ -191,15 +191,15 @@ The project demonstrates the following SQL concepts in SQLite:
 - `CASE`
 - `NULLIF`
 - `UNION ALL`
-- Common Table Expressions (CTEs)
-- Subqueries
+- `Common Table Expressions (CTEs)`
+- `Subqueries`
 - `JOIN`
-- Conditional filtering
-- Aggregation
-- Ratio calculations
-- Margin calculations
-- Data-quality checks
-- Defensive calculations to avoid division-by-zero errors
+- `Conditional filtering`
+- `Aggregation`
+- `Ratio calculations`
+- `Margin calculations`
+- `Data-quality checks`
+- `Defensive calculations to avoid division by zero errors`
 
 ---
 
@@ -240,17 +240,17 @@ WHERE unitid IS NOT NULL;
 ```
 Additional SQL checks were performed to identify missing identifiers, duplicate institution-sport combinations, invalid participant counts, and negative financial values.
 
-Data Source
+## Data Source
 
-The project uses data from the Equity in Athletics Disclosure Act (EADA) reporting system administered by the U.S. Department of Education.
+The project uses data from the Equity in Athletics Disclosure Act (EADA) reporting system administered by the U.S. Department of Education for the year 2024-25.
 
 EADA requires participating institutions to report information about their intercollegiate athletic programs, including financial and participation data.
 
-Source:
+## Source:
 
 U.S. Department of Education — EADA
 
-Repository Structure
+## Repository Structure
 
 ```college-athletics-sql-analytics/
 │
@@ -262,19 +262,27 @@ Repository Structure
 ├── Power BI NCAA_Financial_Analytics.png
 └── README.md
 ```
-Tools Used
+## Tools Used
 Excel — Initial data preparation and cleaning
 SQLite / DB Browser for SQLite — Data exploration, validation, and SQL analysis
 Power BI — Data visualization and dashboard development
 GitHub — Version control and project documentation
-Limitations
+
+## Limitations
+
 The analysis is based on reported EADA data and therefore depends on the accuracy and completeness of institutional reporting.
+
 The analysis represents a specific reporting period rather than a multi-year trend.
+
 A positive financial difference should not automatically be interpreted as commercial profit.
+
 Expense per participant is a spending metric and does not measure program quality, athletic performance, or institutional efficiency by itself.
+
 Differences between institutions should be interpreted with consideration for NCAA classification, institution size, sport mix, and other institutional factors.
+
 Financial results for individual sports should not be interpreted as standalone measures of overall athletic-department performance.
-Future Improvements
+
+## Future Improvements
 
 Potential future improvements include:
 
@@ -283,11 +291,14 @@ Expanding the Power BI dashboard with NCAA classification and institution-level 
 Adding additional financial efficiency metrics.
 Investigating relationships between athletic spending, participation, and institutional characteristics.
 Adding more advanced statistical analysis to identify factors associated with financial performance.
-Project Files
-File	Purpose
-01_data_exploration.sql	Dataset exploration and profiling
-02_data_quality_checks.sql	Data-quality validation
-03_financial_performance.sql	Financial performance analysis
-04_resource_allocation.sql	Resource allocation analysis
-NCAA_Financial_Analytics.pbix	Power BI dashboard
-Power BI NCAA_Financial_Analytics.png	Dashboard preview
+
+## Project Files
+
+| File | Purpose |
+|---|---|
+| `01_data_exploration.sql` | Dataset exploration and profiling |
+| `02_data_quality_checks.sql` | Data-quality validation |
+| `03_financial_performance.sql` | Financial performance analysis |
+| `04_resource_allocation.sql` | Resource allocation analysis |
+| `NCAA_Financial_Analytics.pbix` | Power BI dashboard |
+| `NCAA_Financial_Analytics_Dashboard.png` | Dashboard preview |
