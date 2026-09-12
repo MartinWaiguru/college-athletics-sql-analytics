@@ -214,16 +214,18 @@ Net_Result =
 schools_cleaned[TOTAL_REVENUE_ALL]
     - schools_cleaned[TOTAL_EXPENSE_ALL]
 
-```Cost per Participant
+Cost per Participant
 Cost_Per_Participant =
 DIVIDE(
     schools_cleaned[TOTAL_EXPENSE_ALL],
     schools_cleaned[TOTAL_PARTICIPANTS],
     0
 )
+```
+
 These calculations support the financial-performance and resource-allocation analysis presented in the dashboard.
 
-Data Quality and Preparation
+### Data Quality and Preparation
 
 The original data required preparation before analysis.
 
@@ -231,11 +233,11 @@ One issue encountered during preparation was unnecessary blank Excel rows that c
 
 The SQL workflow then created a cleaned analysis table using:
 
-CREATE TABLE athletics_clean AS
+```CREATE TABLE athletics_clean AS
 SELECT *
 FROM athletics
 WHERE unitid IS NOT NULL;
-
+```
 Additional SQL checks were performed to identify missing identifiers, duplicate institution-sport combinations, invalid participant counts, and negative financial values.
 
 Data Source
@@ -250,7 +252,7 @@ U.S. Department of Education — EADA
 
 Repository Structure
 
-college-athletics-sql-analytics/
+```college-athletics-sql-analytics/
 │
 ├── 01_data_exploration.sql
 ├── 02_data_quality_checks.sql
@@ -259,7 +261,7 @@ college-athletics-sql-analytics/
 ├── NCAA_Financial_Analytics.pbix
 ├── Power BI NCAA_Financial_Analytics.png
 └── README.md
-
+```
 Tools Used
 Excel — Initial data preparation and cleaning
 SQLite / DB Browser for SQLite — Data exploration, validation, and SQL analysis
