@@ -82,7 +82,7 @@ The current dashboard reports approximately **$20.85 billion in total revenue** 
 
 ## Dashboard
 
-![Financial Analytics Dashboard](Power%20BI%20FinancialAnalytics.png)
+![Power BI Financial Analytics](images/Power%20BI%20Financial%20Analytics.png)
 
 The Power BI dashboard provides a visual overview of:
 
