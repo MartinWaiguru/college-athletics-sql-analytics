@@ -82,7 +82,7 @@ The current dashboard reports approximately **$20.85 billion in total revenue** 
 
 ## Dashboard
 
-![NCAA Financial Analytics Dashboard](Power%20BI%20NCAA_Financial_Analytics.png)
+![NCAA Financial Analytics Dashboard](Power%20BI%20FinancialAnalytics.png)
 
 The Power BI dashboard provides a visual overview of:
 
