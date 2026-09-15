@@ -282,16 +282,6 @@ Differences between institutions should be interpreted with consideration for NC
 
 Financial results for individual sports should not be interpreted as standalone measures of overall athletic-department performance.
 
-## Future Improvements
-
-Potential future improvements include:
-
-Adding multi-year EADA data to analyze financial trends over time.
-Expanding the Power BI dashboard with NCAA classification and institution-level filters.
-Adding additional financial efficiency metrics.
-Investigating relationships between athletic spending, participation, and institutional characteristics.
-Adding more advanced statistical analysis to identify factors associated with financial performance.
-
 ## Project Files
 
 | File | Purpose |
