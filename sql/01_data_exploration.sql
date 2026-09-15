@@ -1,3 +1,21 @@
+-- ============================================================
+-- NCAA ATHLETIC DEPARTMENT FINANCIAL ANALYTICS
+-- Data Exploration
+-- ============================================================
+--
+-- Objective:
+-- Understand the structure, coverage, and composition of the
+-- dataset before performing financial analysis.
+--
+-- Key areas:
+-- 1. Dataset size and coverage
+-- 2. Institutions and sports
+-- 3. NCAA classifications
+-- 4. Geographic coverage
+-- ============================================================
+
+
+
 -- Create the clean table by filtering out blank Excel rows
 DROP TABLE IF EXISTS athletics_clean;
 
@@ -10,26 +28,26 @@ WHERE unitid IS NOT NULL;
 SELECT COUNT(*) AS total_records
 FROM athletics_clean;
 
-
--- QUESTION 1: How many sports program records are included in the dataset?
+-- Business question:
+-- How many sports program records are included in the dataset?
 
 SELECT COUNT(*) AS total_records
 FROM athletics_clean;
 
-
--- QUESTION 2: How many unique institutions are represented in the dataset?
+-- Business question:
+-- How many unique institutions are represented in the dataset?
 
 SELECT COUNT(DISTINCT unitid) AS total_institutions
 FROM athletics_clean;
 
-
--- QUESTION 3: How many unique sports are represented in the dataset?
+-- Business question:
+-- How many unique sports are represented in the dataset?
 
 SELECT COUNT(DISTINCT Sports) AS total_sports
 FROM athletics_clean;
 
-
--- QUESTION 4: Which NCAA classifications are represented in the dataset?
+-- Business question:
+-- Which NCAA classifications are represented in the dataset?
 
 SELECT 
     classification_name,
@@ -38,9 +56,8 @@ FROM athletics_clean
 GROUP BY classification_name
 ORDER BY total_records DESC;
 
-
--- QUESTION 5: Which states have the largest number of institutions
--- represented in the dataset?
+-- Business question:
+-- Which states have the largest number of institutions represented in the dataset?
 
 SELECT 
     state_cd,
