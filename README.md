@@ -26,8 +26,6 @@ College athletic departments manage substantial financial resources across multi
 * **Resource allocation:** Spending intensity varied across NCAA classifications and between men's and women's programs.
 * **Benchmark outliers:** The analysis identified individual programs whose expense per participant exceeded **2× their sport-level benchmark**, highlighting areas for further investigation.
 
-> Replace the statements above with the exact percentages/dollar values from the final SQL results before publishing.
-
 ## Analytical Workflow
 
 **1. Data Preparation**
@@ -53,7 +51,7 @@ Built an interactive dashboard presenting revenue, expenses, net financial resul
 
 ### SQL Techniques
 
-`GROUP BY` · `JOIN` · `CASE` · `CTE` · subqueries · `UNION ALL` · aggregations · `COUNT(DISTINCT)` · `NULLIF` · ratio calculations · conditional filtering
+`GROUP BY` · `JOIN` · `CASE` · `CTE` · `subqueries` · `UNION ALL` · `aggregations` · `COUNT(DISTINCT)` · `NULLIF` · `ratio calculations` · `conditional filtering`
 
 ## Dashboard
 
