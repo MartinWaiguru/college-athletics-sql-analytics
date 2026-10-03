@@ -4,7 +4,7 @@
 
 An end-to-end analysis of 2024–25 U.S. collegiate athletics financial data, focused on **financial performance, spending intensity, and resource allocation across sports and institutions**.
 
-![Power BI Dashboard](images/.png)
+![Power BI Dashboard](images/NCAA_Financial_Analytics.png)
 
 ## Business Problem
 
