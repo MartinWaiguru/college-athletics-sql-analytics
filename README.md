@@ -75,7 +75,7 @@ The dataset contains institutional athletics financial, participation, and progr
 ## Tools
 
 **Excel** — data preparation
-**SQLite / DB Browser for SQLite** — data validation and analysis
+**SQLite** — data validation and analysis
 **Power BI** — visualization and dashboard development
 **GitHub** — version control and documentation
 
